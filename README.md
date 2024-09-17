@@ -94,7 +94,7 @@ clothing-store/
 ├── pom.xml
 └── README.md
  # Known Issues:
- # CORS Policy: If you encounter CORS issues, make sure to enable CORS in your Spring Boot application by adding the appropriate annotations.
- # Image Loading: Ensure the images are stored in the correct directory and accessible via the server.
+  CORS Policy: If you encounter CORS issues, make sure to enable CORS in your Spring Boot application by adding the appropriate annotations.
+  Image Loading: Ensure the images are stored in the correct directory and accessible via the server.
  # Contact
  For any inquiries or feedback, please contact devgupta97197@gmail.com
