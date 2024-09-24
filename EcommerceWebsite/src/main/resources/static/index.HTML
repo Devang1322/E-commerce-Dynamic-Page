@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto py-10">
+    <div class="w-full max-w-lg mx-auto">
+        <input 
+            type="text" 
+            id="searchInput" 
+            class="w-full p-2 border border-gray-300 rounded-lg"
+            placeholder="Search for clothing..."
+            oninput="fetchResults()"
+        />
+
+        <div id="resultsContainer" class="bg-white border border-gray-300 mt-2 rounded-lg shadow-lg hidden">
+            <ul id="resultsList"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fetchResults() {
+        const query = document.getElementById('searchInput').value;
+
+        if (query.length > 3) {
+            fetch(`http://localhost:8080/api/search?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    const resultsList = document.getElementById('resultsList');
+                    
+                    resultsList.innerHTML = ''; // Clear previous results
+
+                    data.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.className = "p-2 hover:bg-gray-100 flex items-center";
+
+                        const img = document.createElement('img');
+                        img.src = item.imageUrl;
+                        img.alt = item.name;
+                        img.className = "w-16 h-16 object-cover rounded mr-4";
+
+                        const textContainer = document.createElement('div');
+                        textContainer.innerHTML = `<strong>${item.name}</strong><br>₹${item.price.toFixed(2)}`;
+
+                        listItem.appendChild(img);
+                        listItem.appendChild(textContainer);
+                        resultsList.appendChild(listItem);
+                    });
+
+                    resultsContainer.classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                    // Add error handling display here if needed
+                });
+        } else {
+            document.getElementById('resultsContainer').classList.add('hidden');
+        }
+    }
+</script>
+
+</body>
+</html>
